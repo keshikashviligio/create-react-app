@@ -30,6 +30,8 @@ const publicUrlOrPath = getPublicUrlOrPath(
   process.env.PUBLIC_URL
 );
 
+const buildPath = process.env.BUILD_PATH || 'build';
+
 const moduleFileExtensions = [
   'web.mjs',
   'mjs',
@@ -61,7 +63,7 @@ const resolveModule = (resolveFn, filePath) => {
 module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
-  appBuild: resolveApp('build'),
+  appBuild: resolveApp(buildPath),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
   appIndexJs: resolveModule(resolveApp, 'src/index'),
@@ -73,6 +75,7 @@ module.exports = {
   testsSetup: resolveModule(resolveApp, 'src/setupTests'),
   proxySetup: resolveApp('src/setupProxy.js'),
   appNodeModules: resolveApp('node_modules'),
+  swSrc: resolveModule(resolveApp, 'src/service-worker'),
   publicUrlOrPath,
 };
 
@@ -83,7 +86,7 @@ const resolveOwn = relativePath => path.resolve(__dirname, '..', relativePath);
 module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
-  appBuild: resolveApp('build'),
+  appBuild: resolveApp(buildPath),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
   appIndexJs: resolveModule(resolveApp, 'src/index'),
@@ -95,6 +98,7 @@ module.exports = {
   testsSetup: resolveModule(resolveApp, 'src/setupTests'),
   proxySetup: resolveApp('src/setupProxy.js'),
   appNodeModules: resolveApp('node_modules'),
+  swSrc: resolveModule(resolveApp, 'src/service-worker'),
   publicUrlOrPath,
   // These properties only exist before ejecting:
   ownPath: resolveOwn('.'),
@@ -120,7 +124,7 @@ if (
   module.exports = {
     dotenv: resolveOwn(`${templatePath}/.env`),
     appPath: resolveApp('.'),
-    appBuild: resolveOwn('../../build'),
+    appBuild: resolveOwn(path.join('../..', buildPath)),
     appPublic: resolveOwn(`${templatePath}/public`),
     appHtml: resolveOwn(`${templatePath}/public/index.html`),
     appIndexJs: resolveModule(resolveOwn, `${templatePath}/src/index`),
@@ -132,6 +136,7 @@ if (
     testsSetup: resolveModule(resolveOwn, `${templatePath}/src/setupTests`),
     proxySetup: resolveOwn(`${templatePath}/src/setupProxy.js`),
     appNodeModules: resolveOwn('node_modules'),
+    swSrc: resolveModule(resolveOwn, `${templatePath}/src/service-worker`),
     publicUrlOrPath,
     // These properties only exist before ejecting:
     ownPath: resolveOwn('.'),
